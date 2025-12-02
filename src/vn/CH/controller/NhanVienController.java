@@ -90,24 +90,24 @@ public class NhanVienController {
             return false;
         }
 
-        // 3. Validate Tuổi (Phải đủ 18 tuổi)
-        try {
-            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-            Date birthDate = sdf.parse(nv.getNgaySinh());
-            Date now = new Date();
-
-            // Tính tuổi sơ bộ (lấy năm hiện tại - năm sinh)
-            long ageInMillis = now.getTime() - birthDate.getTime();
-            long years = ageInMillis / (1000L * 60 * 60 * 24 * 365);
-
-            if (years < 18) {
-                JOptionPane.showMessageDialog(view, "Nhân viên phải đủ 18 tuổi!");
-                return false;
-            }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(view, "Định dạng ngày sinh không hợp lệ!");
-            return false;
-        }
+//        // 3. Validate Tuổi (Phải đủ 18 tuổi)
+//        try {
+//            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+//            Date birthDate = sdf.parse(nv.getNgaySinh());
+//            Date now = new Date();
+//
+//            // Tính tuổi sơ bộ (lấy năm hiện tại - năm sinh)
+//            long ageInMillis = now.getTime() - birthDate.getTime();
+//            long years = ageInMillis / (1000L * 60 * 60 * 24 * 365);
+//
+//            if (years < 18) {
+//                JOptionPane.showMessageDialog(view, "Nhân viên phải đủ 18 tuổi!");
+//                return false;
+//            }
+//        } catch (Exception e) {
+//            JOptionPane.showMessageDialog(view, "Định dạng ngày sinh không hợp lệ!");
+//            return false;
+//        }
 
         return true; 
     }
