@@ -1,8 +1,8 @@
-package vn.CH.controller;
+package CH.controller;
 
-import vn.CH.dao.NhanVienDAO;
-import vn.CH.model.NhanVien;
-import vn.CH.view.NhanVienView;
+import CH.dao.NhanVienDAO;
+import CH.model.NhanVien;
+import CH.view.NhanVienView;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

@@ -1,6 +1,6 @@
-package vn.CH.dao;
+package CH.dao;
 
-import vn.CH.model.NhanVien;
+import CH.model.NhanVien;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

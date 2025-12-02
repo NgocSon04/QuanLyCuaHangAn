@@ -2,16 +2,21 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package vn.CH.main;
+package CH.main;
 
-import vn.CH.controller.NhanVienController;
-import vn.CH.view.MainView;
+import CH.controller.NhanVienController;
+import CH.view.MainView;
+import CH.dao.DBConnection;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
-import vn.CH.controller.KhachHangController;
+import CH.controller.HoaDonController;
+import CH.controller.KhachHangController;
 
 public class Main {
     public static void main(String[] args) {
+        
+        DBConnection.initializeDatabase();
+        
         SwingUtilities.invokeLater(()->{
             try {
                 UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -27,6 +32,7 @@ public class Main {
             // 3. Gắn Panel đó vào Controller để xử lý logic
             new NhanVienController(mainView.getNhanVienView());
             new KhachHangController(mainView.getKhachHangView());
+            new HoaDonController(mainView.getHoaDonView());
             
             mainView.setVisible(true);
         });

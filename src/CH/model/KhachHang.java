@@ -1,4 +1,4 @@
-package vn.CH.model;
+package CH.model;
 
 public class KhachHang {
     private String maKH;

@@ -1,4 +1,4 @@
-package vn.CH.view;
+package CH.view;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -6,26 +6,22 @@ import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionListener;
-import vn.CH.model.NhanVien;
-import com.toedter.calendar.JDateChooser;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import CH.model.KhachHang; 
 
-public class NhanVienView extends JPanel {
+public class KhachHangView extends JPanel {
 
     // Colors
     private final Color TEAL_COLOR = new Color(0, 77, 77);
     
     // Components
-    private JTextField txtMaNV, txtTenNV, txtChucVu, txtSDT, txtDiaChi, txtTimKiem;
-    private JDateChooser txtNgaySinh;
+    private JTextField txtMaKH, txtTenKH, txtTheLoai, txtEmail, txtSDT, txtDiaChi, txtTimKiem;
     private JRadioButton rdoNam, rdoNu;
     private ButtonGroup btnGroupGender;
-    private JTable tableNhanVien;
+    private JTable tableKhachHang;
     private DefaultTableModel tableModel;
     private JButton btnThem, btnSua, btnXoa, btnLuu, btnHuy, btnReset, btnTimKiem;
 
-    public NhanVienView() {
+    public KhachHangView() {
         setLayout(new BorderLayout());
         initUI();
     }
@@ -37,7 +33,7 @@ public class NhanVienView extends JPanel {
         pnlFormContainer.setBackground(TEAL_COLOR);
         pnlFormContainer.setBorder(new EmptyBorder(20, 20, 20, 20));
 
-        JLabel lblFormTitle = new JLabel("Thông tin nhân viên");
+        JLabel lblFormTitle = new JLabel("Thông tin Khách hàng");
         lblFormTitle.setForeground(Color.WHITE);
         lblFormTitle.setFont(new Font("Segoe UI", Font.BOLD, 20));
         lblFormTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -50,29 +46,20 @@ public class NhanVienView extends JPanel {
         gbc.insets = new Insets(10, 10, 10, 10);
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        addFormRow(pnlForm, gbc, 0, "Mã nhân viên", txtMaNV = new JTextField(15));
-        txtMaNV.setEditable(false); // Không cho nhập tay
-        txtMaNV.setBackground(new Color(230, 230, 230)); // Đổi màu xám nhẹ để biết là read-only
-        txtMaNV.setText("Tự động sinh"); // Giá trị mặc định
+        // Row 1: Mã KH + Tên KH
+        addFormRow(pnlForm, gbc, 0, "Mã khách hàng", txtMaKH = new JTextField(15));
+        txtMaKH.setEditable(false);
+        txtMaKH.setBackground(new Color(230, 230, 230));
+        txtMaKH.setText("Tự động sinh");
         
-        addFormRow(pnlForm, gbc, 2, "Tên nhân viên", txtTenNV = new JTextField(15));
+        addFormRow(pnlForm, gbc, 2, "Tên khách hàng", txtTenKH = new JTextField(15));
         
-        gbc.gridx = 4; gbc.weightx = 0; gbc.fill = GridBagConstraints.BOTH;
-        JLabel lblNgaySinh = new JLabel("Ngày sinh"); lblNgaySinh.setForeground(Color.WHITE);
-        pnlForm.add(lblNgaySinh, gbc);
-        gbc.gridx = 5; gbc.weightx = 1.0; gbc.fill = GridBagConstraints.HORIZONTAL;
-        txtNgaySinh = new JDateChooser(); 
-        txtNgaySinh.setDateFormatString("dd/MM/yyyy"); // Định dạng ngày Việt Nam
-        txtNgaySinh.setPreferredSize(new Dimension(150, 25));
-        pnlForm.add(txtNgaySinh, gbc);
-        gbc.weightx = 0;
-        
-        addFormRow(pnlForm, gbc, 6, "Chức vụ", txtChucVu = new JTextField(15));
+        // Row 2: Thể loại + Giới tính
+        gbc.gridy = 1;
+        addFormRow(pnlForm, gbc, 0, "Thể loại (VIP/Thường)", txtTheLoai = new JTextField(15)); // [MỚI]
 
-        // Row 2: Giới tính
-        gbc.gridy = 1; 
-        
-        gbc.gridx = 0; gbc.weightx = 0;
+        // Giới tính
+        gbc.gridx = 2; gbc.weightx = 0;
         JLabel lblGender = new JLabel("Giới tính");
         lblGender.setForeground(Color.WHITE);
         pnlForm.add(lblGender, gbc);
@@ -85,11 +72,17 @@ public class NhanVienView extends JPanel {
         btnGroupGender = new ButtonGroup(); btnGroupGender.add(rdoNam); btnGroupGender.add(rdoNu);
         pnlGender.add(rdoNam); pnlGender.add(rdoNu);
         
-        gbc.gridx = 1; gbc.weightx = 1.0; gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.gridx = 3; gbc.weightx = 1.0; gbc.fill = GridBagConstraints.HORIZONTAL;
         pnlForm.add(pnlGender, gbc);
 
+        // Row 3: Email + SĐT
+        gbc.gridy = 2; // Xuống dòng tiếp theo
+        addFormRow(pnlForm, gbc, 0, "Email", txtEmail = new JTextField(15)); // [MỚI]
         addFormRow(pnlForm, gbc, 2, "Số điện thoại", txtSDT = new JTextField(15));
-        addFormRow(pnlForm, gbc, 4, "Địa chỉ", txtDiaChi = new JTextField(15));
+
+        // Row 4: Địa chỉ
+        gbc.gridy = 3;
+        addFormRow(pnlForm, gbc, 0, "Địa chỉ", txtDiaChi = new JTextField(15));
 
         pnlFormContainer.add(pnlForm);
 
@@ -107,25 +100,26 @@ public class NhanVienView extends JPanel {
         pnlSearch.setBackground(TEAL_COLOR);
         txtTimKiem = new JTextField(15);
         btnTimKiem = createStyledButton("Tìm kiếm");
-        pnlSearch.add(new JLabel("Tên NV: ")).setForeground(Color.WHITE);
+        pnlSearch.add(new JLabel("Tên KH: ")).setForeground(Color.WHITE);
         pnlSearch.add(txtTimKiem); pnlSearch.add(btnTimKiem);
         pnlFormContainer.add(pnlSearch);
 
         add(pnlFormContainer, BorderLayout.NORTH);
 
         // 2. Table Area
-        String[] columnNames = {"Mã nhân viên", "Tên nhân viên", "Ngày sinh", "Giới tính", "Chức vụ", "Số điện thoại", "Địa chỉ"};
+        // [CẬP NHẬT] Tên cột khớp với Model Khách Hàng
+        String[] columnNames = {"Mã KH", "Tên khách hàng", "Thể loại", "Giới tính", "Email", "SĐT", "Địa chỉ"};
         tableModel = new DefaultTableModel(columnNames, 0);
-        tableNhanVien = new JTable(tableModel);
-        tableNhanVien.setRowHeight(25);
-        tableNhanVien.getTableHeader().setBackground(new Color(230, 230, 230));
-        tableNhanVien.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 12));
-        JScrollPane scrollPane = new JScrollPane(tableNhanVien);
+        tableKhachHang = new JTable(tableModel);
+        tableKhachHang.setRowHeight(25);
+        tableKhachHang.getTableHeader().setBackground(new Color(230, 230, 230));
+        tableKhachHang.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 12));
+        JScrollPane scrollPane = new JScrollPane(tableKhachHang);
         scrollPane.getViewport().setBackground(Color.WHITE);
         add(scrollPane, BorderLayout.CENTER);
     }
 
-    // Helper methods (Copy từ MainView sang)
+    // Helper methods
     private void addFormRow(JPanel panel, GridBagConstraints gbc, int x, String labelText, Component field) {
         gbc.gridx = x; gbc.weightx = 0; gbc.fill = GridBagConstraints.BOTH;
         JLabel label = new JLabel(labelText); label.setForeground(Color.WHITE);
@@ -144,70 +138,64 @@ public class NhanVienView extends JPanel {
         return btn;
     }
 
-// [SỬA] Cập nhật hàm lấy dữ liệu từ Form
-    public NhanVien getNhanVienInfo() {
+    // [QUAN TRỌNG] Sửa kiểu trả về là KhachHang
+    public KhachHang getKhachHangInfo() {
         String gt = rdoNam.isSelected() ? "Nam" : "Nữ";
-        
-        String strNgaySinh = "";
-        if (txtNgaySinh.getDate() != null) {
-            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-            strNgaySinh = sdf.format(txtNgaySinh.getDate());
-        }
-
-        return new NhanVien(txtMaNV.getText(), txtTenNV.getText(), strNgaySinh, gt, txtChucVu.getText(), txtSDT.getText(), txtDiaChi.getText());
+        return new KhachHang(
+            txtMaKH.getText(), 
+            txtTenKH.getText(), 
+            txtTheLoai.getText(), // Thay cho NgaySinh
+            gt, 
+            txtEmail.getText(),   // Thay cho ChucVu
+            txtSDT.getText(), 
+            txtDiaChi.getText()
+        );
     }
 
-    public void fillForm(NhanVien nv) {
-            txtMaNV.setText(nv.getMaNV());
-            txtTenNV.setText(nv.getTenNV());
-
-            // Chuyển chuỗi String từ Model thành Date để hiển thị lên JDateChooser
-            try {
-                if (nv.getNgaySinh() != null && !nv.getNgaySinh().isEmpty()) {
-                    Date date = new SimpleDateFormat("dd/MM/yyyy").parse(nv.getNgaySinh());
-                    txtNgaySinh.setDate(date);
-                } else {
-                    txtNgaySinh.setDate(null);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-                txtNgaySinh.setDate(null);
-            }
-
-            txtChucVu.setText(nv.getChucVu());
-            txtSDT.setText(nv.getSoDienThoai());
-            txtDiaChi.setText(nv.getDiaChi());
-            if (nv.getGioiTinh() != null && nv.getGioiTinh().equals("Nam")) rdoNam.setSelected(true); else rdoNu.setSelected(true);
+    // [QUAN TRỌNG] Sửa tham số đầu vào là KhachHang
+    public void fillForm(KhachHang kh) {
+        txtMaKH.setText(kh.getMaKH());
+        txtTenKH.setText(kh.getTenKH());
+        txtTheLoai.setText(kh.getTheLoai());
+        txtEmail.setText(kh.getEmail());
+        txtSDT.setText(kh.getSoDienThoai());
+        txtDiaChi.setText(kh.getDiaChi());
+        if (kh.getGioiTinh() != null && kh.getGioiTinh().equals("Nam")) rdoNam.setSelected(true); else rdoNu.setSelected(true);
     }
 
     public void clearForm() {
-        txtMaNV.setText("Tự động sinh"); 
-        txtTenNV.setText("");
-        txtNgaySinh.setDate(null);
-        txtChucVu.setText(""); txtSDT.setText(""); txtDiaChi.setText("");
+        txtMaKH.setText("Tự động sinh"); 
+        txtTenKH.setText("");
+        txtTheLoai.setText(""); 
+        txtEmail.setText("");
+        txtSDT.setText(""); 
+        txtDiaChi.setText("");
         btnGroupGender.clearSelection();
     }
     
-    public JTable getTable() { 
-        return tableNhanVien; 
+    public JTable getTable() { return tableKhachHang; }
+    public void clearTable() { tableModel.setRowCount(0); }
+    
+    // [QUAN TRỌNG] Sửa tham số là KhachHang
+    public void addRowToTable(KhachHang kh) { 
+        tableModel.addRow(kh.toObjectArray()); 
     }
-    public void clearTable() { 
-        tableModel.setRowCount(0); 
+    
+    public int getSelectedRow() { return tableKhachHang.getSelectedRow(); }
+    
+    // [QUAN TRỌNG] Update theo Model KhachHang
+    public void updateRowInTable(KhachHang kh, int row) {
+        tableModel.setValueAt(kh.getMaKH(), row, 0); 
+        tableModel.setValueAt(kh.getTenKH(), row, 1);
+        tableModel.setValueAt(kh.getTheLoai(), row, 2); 
+        tableModel.setValueAt(kh.getGioiTinh(), row, 3);
+        tableModel.setValueAt(kh.getEmail(), row, 4); 
+        tableModel.setValueAt(kh.getSoDienThoai(), row, 5);
+        tableModel.setValueAt(kh.getDiaChi(), row, 6);
     }
-    public void addRowToTable(NhanVien nv) { 
-        tableModel.addRow(nv.toObjectArray()); 
-    }
-    public int getSelectedRow() { 
-        return tableNhanVien.getSelectedRow(); 
-    }
-    public void updateRowInTable(NhanVien nv, int row) {
-        tableModel.setValueAt(nv.getMaNV(), row, 0); tableModel.setValueAt(nv.getTenNV(), row, 1);
-        tableModel.setValueAt(nv.getNgaySinh(), row, 2); tableModel.setValueAt(nv.getGioiTinh(), row, 3);
-        tableModel.setValueAt(nv.getChucVu(), row, 4); tableModel.setValueAt(nv.getSoDienThoai(), row, 5);
-        tableModel.setValueAt(nv.getDiaChi(), row, 6);
-    }
+    
     public void removeRowInTable(int row) { tableModel.removeRow(row); }
-    public void addTableSelectionListener(javax.swing.event.ListSelectionListener listener) { tableNhanVien.getSelectionModel().addListSelectionListener(listener); }
+    public void addTableSelectionListener(javax.swing.event.ListSelectionListener listener) { tableKhachHang.getSelectionModel().addListSelectionListener(listener); }
     public void addThemListener(ActionListener al) { btnThem.addActionListener(al); }
     public void addSuaListener(ActionListener al) { btnSua.addActionListener(al); }
     public void addXoaListener(ActionListener al) { btnXoa.addActionListener(al); }

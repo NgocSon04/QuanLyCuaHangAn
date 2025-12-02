@@ -1,4 +1,4 @@
-package vn.CH.view;
+package CH.view;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -21,6 +21,7 @@ public class MainView extends JFrame {
     // Các View Con (Khai báo ở đây để lấy ra khi cần)
     private NhanVienView nhanVienView;
     private KhachHangView khachHangView;
+    private HoaDonView hoaDonView;
 
     public MainView() {
         setTitle("Hệ Thống Quản Lý Cửa Hàng Đồ Ăn Nhanh");
@@ -55,12 +56,13 @@ public class MainView extends JFrame {
         // --- KHỞI TẠO CÁC VIEW CON ---
         nhanVienView = new NhanVienView(); // Tạo panel nhân viên từ class riêng
         khachHangView = new KhachHangView();
+        hoaDonView = new HoaDonView();
         
         pnlContent.add(createTrangChuPanel(), "Trang chủ");
         pnlContent.add(nhanVienView, "Nhân viên"); 
         pnlContent.add(khachHangView, "Khách hàng");
         pnlContent.add(createPlaceholderPanel("Quản lý Thực đơn"), "Thực đơn");
-        pnlContent.add(createPlaceholderPanel("Quản lý Hóa đơn"), "Hóa đơn");
+        pnlContent.add(hoaDonView, "Hóa đơn");
         pnlContent.add(createPlaceholderPanel("Quản lý Kho"), "Kho");
         pnlContent.add(createPlaceholderPanel("Báo cáo Doanh thu"), "Doanh thu");
 
@@ -104,6 +106,9 @@ public class MainView extends JFrame {
     }
     public KhachHangView getKhachHangView(){
         return khachHangView;
+    }
+    public HoaDonView getHoaDonView(){
+        return hoaDonView;
     }
     
 

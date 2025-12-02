@@ -1,8 +1,8 @@
-package vn.CH.controller;
+package CH.controller;
 
-import vn.CH.dao.KhachHangDAO;
-import vn.CH.model.KhachHang;
-import vn.CH.view.KhachHangView;
+import CH.dao.KhachHangDAO;
+import CH.model.KhachHang;
+import CH.view.KhachHangView;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
