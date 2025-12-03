@@ -108,6 +108,17 @@ public class DBConnection {
                     + ") CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;";
             dbStmt.executeUpdate(sqlCreateChiTiet);
             System.out.println("Da Kiem tra/ Tao bang ChiTietHoaDon.");
+            
+            // 8. Tạo bảng ThucDon (Menu)
+            String sqlCreateThucDon = "CREATE TABLE IF NOT EXISTS ThucDon ("
+                    + "MaMon VARCHAR(20) NOT NULL PRIMARY KEY,"
+                    + "TenMon VARCHAR(100),"
+                    + "DonGia DOUBLE,"
+                    + "DonViTinh VARCHAR(20)"
+                    + ") CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;";
+            dbStmt.executeUpdate(sqlCreateThucDon);
+            System.out.println("Da Kiem tra/ Tao bang ThucDon.");
+
 
             // (Optional) Tạo thêm các bảng khác ở đây nếu cần (Khách hàng, Hóa đơn...)
             

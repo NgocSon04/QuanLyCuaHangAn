@@ -4,6 +4,7 @@
  */
 package CH.main;
 
+import CH.controller.DatMonController;
 import CH.controller.NhanVienController;
 import CH.view.MainView;
 import CH.dao.DBConnection;
@@ -11,6 +12,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import CH.controller.HoaDonController;
 import CH.controller.KhachHangController;
+import CH.controller.ThucDonController;
 
 public class Main {
     public static void main(String[] args) {
@@ -33,6 +35,8 @@ public class Main {
             new NhanVienController(mainView.getNhanVienView());
             new KhachHangController(mainView.getKhachHangView());
             new HoaDonController(mainView.getHoaDonView());
+            new DatMonController(mainView.getDatMonView());
+            new ThucDonController(mainView.getThucDonView());   
             
             mainView.setVisible(true);
         });
